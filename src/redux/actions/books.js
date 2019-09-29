@@ -9,7 +9,9 @@ const instance = axios.create({
 export const fetchBooks = () => {
   return async dispatch => {
     try {
-      const res = await instance.get("/api/books/");
+      const res = await axios.get(
+        "https://the-index-api.herokuapp.com/api/books/"
+      );
       const books = res.data;
       dispatch({
         type: SET_BOOKS,
@@ -24,7 +26,10 @@ export const fetchBooks = () => {
 export const postBook = book => {
   return async dispatch => {
     try {
-      const res = await instance.post("/api/books/", book);
+      const res = await axios.post(
+        "https://the-index-api.herokuapp.com/api/books/",
+        book
+      );
       const newBook = res.data;
       dispatch({
         type: ADD_BOOK,

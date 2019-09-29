@@ -9,7 +9,9 @@ const instance = axios.create({
 export const fetchAuthors = () => {
   return async dispatch => {
     try {
-      const res = await instance.get("/api/authors/");
+      const res = await axios.get(
+        "https://the-index-api.herokuapp.com/api/authors/"
+      );
       const authors = res.data;
       dispatch({
         type: SET_AUTHORS,
@@ -24,7 +26,10 @@ export const fetchAuthors = () => {
 export const postAuthor = author => {
   return async dispatch => {
     try {
-      const res = await instance.post("/api/authors/", author);
+      const res = await axios.post(
+        "https://the-index-api.herokuapp.com/api/authors/",
+        author
+      );
       const newAuthor = res.data;
       dispatch({
         type: ADD_AUTHOR,
