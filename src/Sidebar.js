@@ -3,6 +3,10 @@ import { NavLink, Link } from "react-router-dom";
 
 // Logo
 import logo from "./assets/theindex.svg";
+import { connect } from "react-redux";
+
+// actions
+import { logout } from "./redux/actions/authentication";
 
 class Sidebar extends Component {
   render() {
@@ -15,16 +19,43 @@ class Sidebar extends Component {
           </h4>
         </section>
         <div className="fixed-bottom">
-          <Link to="/login" className="btn btn-info m-2 float-left">
-            Login
-          </Link>
-          <Link to="/signup" className="btn btn-success m-2 float-left">
-            Signup
-          </Link>
+          {this.props.user ? (
+            <button
+              className="btn btn-warning m-2 float-left"
+              onClick={() => this.props.logout()}
+            >
+              logout {this.props.user.username}
+            </button>
+          ) : (
+            <div>
+              <Link to="/login" className="btn btn-info m-2 float-left">
+                Login
+              </Link>
+
+              <Link to="/signup" className="btn btn-success m-2 float-left">
+                Signup
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default Sidebar;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Sidebar);

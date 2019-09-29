@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { authorization } from "./redux/actions";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Signup extends Component {
   state = {
@@ -13,11 +16,13 @@ class Signup extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    alert("I DON'T WORK YET");
+    this.props.signup(this.state, this.props.history);
   };
 
   render() {
     const { username, email, password } = this.state;
+
+    if (this.props.user) return <Redirect to="/authors" />;
 
     return (
       <div className="col-6 mx-auto">
@@ -75,4 +80,20 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signup: (userData, history) =>
+      dispatch(authorization(userData, "signup", history))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Signup);
